@@ -1,0 +1,8 @@
+<resources>
+    <!-- Add your green color values -->
+    <color name="colorPrimary">#4CAF50</color> <!-- Medium Green -->
+    <color name="colorPrimaryDark">#388E3C</color> <!-- Darker Green -->
+    <color name="colorAccent">#8BC34A</color> <!-- Light Green -->
+
+</resources>
+
