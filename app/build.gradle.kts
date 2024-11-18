@@ -60,6 +60,11 @@ dependencies {
     implementation ("com.google.zxing:core:3.3.0")
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation ("androidx.cardview:cardview:1.0.0")
+    testImplementation ("io.mockk:mockk:1.13.5")           // Mocking library
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4") // Coroutine testing
+    testImplementation ("junit:junit:4.13.2")               // JUnit for unit testing
+    testImplementation ("androidx.test.ext:junit:1.1.5")   // Android JUnit extensions
+    testImplementation ("androidx.test:core:1.5.0")      // Android test core library
 
 }
 
