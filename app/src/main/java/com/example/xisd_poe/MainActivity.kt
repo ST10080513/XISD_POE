@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
             } else {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter a valid email and password", Toast.LENGTH_SHORT).show()
             }
         }
     }
