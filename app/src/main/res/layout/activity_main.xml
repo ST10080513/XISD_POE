@@ -50,7 +50,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="#4CAF50"/>
 
-
+    <!-- Login Button -->
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
