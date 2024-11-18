@@ -12,7 +12,7 @@
         android:id="@+id/welcome_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Foods Lovers E-STORE"
+        android:text="Welcome to Food Lovers E-STORE"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#4CAF50"
