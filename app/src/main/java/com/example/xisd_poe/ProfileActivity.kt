@@ -10,6 +10,7 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
+
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -18,6 +19,10 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var currentPasswordEditText: EditText
+    private lateinit var cityEditText: EditText
+    private lateinit var countryEditText: EditText
+    private lateinit var streetEditText: EditText
+    private lateinit var zipEditText: EditText
     private lateinit var updateProfileButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +38,10 @@ class ProfileActivity : AppCompatActivity() {
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
         currentPasswordEditText = findViewById(R.id.currentPasswordEditText)
+        cityEditText = findViewById(R.id.cityEditText)
+        countryEditText = findViewById(R.id.countryEditText)
+        streetEditText = findViewById(R.id.streetEditText)
+        zipEditText = findViewById(R.id.zipEditText)
         updateProfileButton = findViewById(R.id.updateProfileButton)
 
         // Load current user profile
@@ -59,35 +68,21 @@ class ProfileActivity : AppCompatActivity() {
     private fun loadUserProfile() {
         val user = auth.currentUser
         if (user != null) {
-            // Load data from Realtime Database (for name)
+            // Load data from Realtime Database (for name and address)
             val userId = user.uid
             val userRef = database.getReference("Users").child(userId)
 
             userRef.child("name").get().addOnSuccessListener {
                 nameEditText.setText(it.value.toString())
-            }.addOnFailureListener {
-                Log.e("ProfileActivity", "Error getting user name", it)
             }
-
+            userRef.child("address").get().addOnSuccessListener { snapshot ->
+                cityEditText.setText(snapshot.child("city").value.toString())
+                countryEditText.setText(snapshot.child("country").value.toString())
+                streetEditText.setText(snapshot.child("street").value.toString())
+                zipEditText.setText(snapshot.child("zip").value.toString())
+            }
             // Set the current email in the EditText
             emailEditText.setText(user.email)
-        }
-    }
-
-    // Re-authenticate user
-    private fun reAuthenticateUser(currentPassword: String, callback: (Boolean) -> Unit) {
-        val user = auth.currentUser
-        if (user != null) {
-            val credential = EmailAuthProvider.getCredential(user.email!!, currentPassword)
-            user.reauthenticate(credential).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d("ProfileActivity", "User re-authenticated.")
-                    callback(true)
-                } else {
-                    Log.e("ProfileActivity", "Re-authentication failed.")
-                    callback(false)
-                }
-            }
         }
     }
 
@@ -99,38 +94,51 @@ class ProfileActivity : AppCompatActivity() {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            // Update name in Firebase Realtime Database
+            val city = cityEditText.text.toString().trim()
+            val country = countryEditText.text.toString().trim()
+            val street = streetEditText.text.toString().trim()
+            val zip = zipEditText.text.toString().trim()
+
+            // Update name and address in Firebase Realtime Database
             val userId = user.uid
             val userRef = database.getReference("Users").child(userId)
-            userRef.child("name").setValue(name).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Name updated successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Error updating name", Toast.LENGTH_SHORT).show()
-                }
-            }
+            userRef.child("name").setValue(name)
+            userRef.child("address").child("city").setValue(city)
+            userRef.child("address").child("country").setValue(country)
+            userRef.child("address").child("street").setValue(street)
+            userRef.child("address").child("zip").setValue(zip)
 
-            // Update email in Firebase Authentication
+            Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+
+            // Update email and password in Firebase Authentication
             if (email.isNotEmpty() && email != user.email) {
-                user.updateEmail(email).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Email updated successfully", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "Error updating email", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                user.updateEmail(email)
             }
-
-            // Update password in Firebase Authentication
             if (password.isNotEmpty()) {
-                user.updatePassword(password).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Password updated successfully", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "Error updating password", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                user.updatePassword(password)
             }
         }
     }
+    private fun reAuthenticateUser(currentPassword: String, callback: (Boolean) -> Unit) {
+        val user = auth.currentUser
+        if (user != null) {
+            // Get the email and current password credential
+            val credential = EmailAuthProvider.getCredential(user.email!!, currentPassword)
+
+            // Re-authenticate the user
+            user.reauthenticate(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Re-authentication succeeded, proceed with the profile update
+                        callback(true)
+                    } else {
+                        // Re-authentication failed
+                        callback(false)
+                    }
+                }
+        } else {
+            callback(false)
+        }
+    }
 }
+

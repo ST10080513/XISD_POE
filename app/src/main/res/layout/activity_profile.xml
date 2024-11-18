@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -19,6 +18,30 @@
         android:hint="Email" />
 
     <EditText
+        android:id="@+id/cityEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="City" />
+
+    <EditText
+        android:id="@+id/countryEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Country" />
+
+    <EditText
+        android:id="@+id/streetEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Street" />
+
+    <EditText
+        android:id="@+id/zipEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ZIP Code" />
+
+    <EditText
         android:id="@+id/currentPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,5 +60,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update Profile" />
-
 </LinearLayout>
