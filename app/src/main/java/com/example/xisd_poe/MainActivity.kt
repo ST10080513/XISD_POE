@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                                             Toast.makeText(this, "Failed to retrieve name", Toast.LENGTH_SHORT).show()
                                         }
                                     } else {
-                                        Toast.makeText(this, "Failed to retrieve users data", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Failed to retrieve user data", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             }
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
             } else {
-                Toast.makeText(this, "Please enter a valid email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -39,7 +39,8 @@ android {
 }
 
 dependencies {
-
+    testImplementation ("org.robolectric:robolectric:4.10.3")
+    testImplementation ("org.slf4j:slf4j-simple:2.0.9")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
@@ -65,6 +66,8 @@ dependencies {
     testImplementation ("junit:junit:4.13.2")               // JUnit for unit testing
     testImplementation ("androidx.test.ext:junit:1.1.5")   // Android JUnit extensions
     testImplementation ("androidx.test:core:1.5.0")      // Android test core library
-
+    implementation ("net.bytebuddy:byte-buddy:1.14.0")// Check for the latest version compatible with Java 21
+    testImplementation ("io.mockk:mockk:1.13.5") // Or latest
+    testImplementation ("org.robolectric:robolectric:4.10.3")
 }
 
